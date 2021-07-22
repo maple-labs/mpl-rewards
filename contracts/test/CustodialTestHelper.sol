@@ -2,7 +2,7 @@
 pragma solidity 0.6.11;
 pragma experimental ABIEncoderV2;
 
-import { IERC2258 } from "../../../custodial-ownership-token/v1/interfaces/IERC2258.sol";
+import { IERC2258 } from "../../../custodial-ownership-token/contracts/interfaces/IERC2258.sol";
 
 import { TestUtil }  from "../../../../test/TestUtil.sol";
 import { Custodian } from "../../../../test/user/Custodian.sol";

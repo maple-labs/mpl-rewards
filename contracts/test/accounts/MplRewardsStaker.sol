@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 pragma solidity >=0.6.11;
 
-import { ERC2258Account } from "../../../../custodial-ownership-token/v1/test/accounts/ERC2258Account.sol";
+import { ERC2258Account } from "../../../../custodial-ownership-token/contracts/test/accounts/ERC2258Account.sol";
 
 import { IMplRewards } from "../../interfaces/IMplRewards.sol";
 

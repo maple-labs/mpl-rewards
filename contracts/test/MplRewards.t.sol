@@ -3,7 +3,7 @@ pragma solidity 0.6.11;
 
 import { DSTest } from "../../../../../lib/ds-test/contracts/test.sol";
 
-import { ERC2258 } from "../../../custodial-ownership-token/v1/ERC2258.sol";
+import { ERC2258 } from "../../../custodial-ownership-token/contracts/ERC2258.sol";
 
 import { MplRewards } from "../MplRewards.sol";
 

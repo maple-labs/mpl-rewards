@@ -6,7 +6,7 @@ import { Math }              from "../../../../lib/openzeppelin-contracts/contra
 import { SafeMath }          from "../../../../lib/openzeppelin-contracts/contracts/math/SafeMath.sol";
 import { IERC20, SafeERC20 } from "../../../../lib/openzeppelin-contracts/contracts/token/ERC20/SafeERC20.sol";
 
-import { IERC2258 } from "../../custodial-ownership-token/v1/interfaces/IERC2258.sol";
+import { IERC2258 } from "../../custodial-ownership-token/contracts/interfaces/IERC2258.sol";
 
 import { IMplRewards } from "./interfaces/IMplRewards.sol";
 
