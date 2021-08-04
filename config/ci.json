@@ -1,0 +1,33 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/MplRewardsFactory.sol": {
+      "urls": ["contracts/MplRewardsFactory.sol"]
+    },
+    "contracts/test/MplRewards.t.sol": {
+      "urls": ["contracts/test/MplRewards.t.sol"]
+    },
+    "contracts/test/MplRewardsFactory.t.sol": {
+      "urls": ["contracts/test/MplRewardsFactory.t.sol"]
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode"
+        ],
+        "": ["ast"]
+      }
+    },
+    "metadata": {
+      "bytecodeHash": "none"
+    }
+  }
+}

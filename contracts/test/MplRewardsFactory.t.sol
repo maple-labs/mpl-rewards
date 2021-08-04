@@ -1,28 +1,23 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 pragma solidity 0.6.11;
 
-import { DSTest } from "../../../../../lib/ds-test/contracts/test.sol";
-
-import { MapleGlobals } from "../../../globals/contracts/MapleGlobals.sol";
+import { DSTest } from "../../modules/ds-test/src/test.sol";
 
 import { MplRewards, MplRewardsFactory } from "../MplRewardsFactory.sol";
 
 import { MplRewardsFactoryGovernor } from "./accounts/MplRewardsFactoryGovernor.sol";
 
-interface Hevm {
+contract MapleGlobalsMock {
 
-    function warp(uint256) external;
-    function store(address,bytes32,bytes32) external;
+    address public governor;
+
+    constructor(address _governor) public {
+        governor = _governor;
+    }
 
 }
 
 contract MplRewardsFactoryTest is DSTest {
-
-    Hevm hevm;
-
-    constructor() public {
-        hevm = Hevm(address(bytes20(uint160(uint256(keccak256("hevm cheat code"))))));
-    }
 
     function test_constructor() external {
         MplRewardsFactory rewardsFactoryContract = new MplRewardsFactory(address(1));
@@ -32,7 +27,7 @@ contract MplRewardsFactoryTest is DSTest {
     function test_setGlobals() external {
         MplRewardsFactoryGovernor governor       = new MplRewardsFactoryGovernor();
         MplRewardsFactoryGovernor notGovernor    = new MplRewardsFactoryGovernor();
-        MapleGlobals mapleGlobalsContract        = new MapleGlobals(address(governor), address(1), address(2));
+        MapleGlobalsMock mapleGlobalsContract    = new MapleGlobalsMock(address(governor));
         MplRewardsFactory rewardsFactoryContract = new MplRewardsFactory(address(mapleGlobalsContract));
 
         assertTrue(!notGovernor.try_mplRewards_setGlobals(address(rewardsFactoryContract), address(1)));
@@ -42,7 +37,7 @@ contract MplRewardsFactoryTest is DSTest {
     function test_createMplRewards() external {
         MplRewardsFactoryGovernor governor       = new MplRewardsFactoryGovernor();
         MplRewardsFactoryGovernor notGovernor    = new MplRewardsFactoryGovernor();
-        MapleGlobals mapleGlobalsContract        = new MapleGlobals(address(governor), address(1), address(2));
+        MapleGlobalsMock mapleGlobalsContract    = new MapleGlobalsMock(address(governor));
         MplRewardsFactory rewardsFactoryContract = new MplRewardsFactory(address(mapleGlobalsContract));
         
         assertTrue(!notGovernor.try_mplRewards_createMplRewards(address(rewardsFactoryContract), address(1), address(2)));
