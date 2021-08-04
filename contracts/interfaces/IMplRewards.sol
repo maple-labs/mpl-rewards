@@ -1,10 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 pragma solidity 0.6.11;
 
-import { IERC20 } from "../../../../../lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
-
-import { IERC2258 } from "../../../custodial-ownership-token/contracts/interfaces/IERC2258.sol";
-
 /// @title MplRewards Synthetix farming contract fork for liquidity mining.
 interface IMplRewards {
 
@@ -57,12 +53,12 @@ interface IMplRewards {
     /**
         @dev The rewards token.
      */
-    function rewardsToken() external view returns (IERC20);
+    function rewardsToken() external view returns (address);
 
     /**
         @dev The staking token.
      */
-    function stakingToken() external view returns (IERC2258);
+    function stakingToken() external view returns (address);
 
     /**
         @dev The period finish.

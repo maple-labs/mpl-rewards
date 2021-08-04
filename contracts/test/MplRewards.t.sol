@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 pragma solidity 0.6.11;
 
-import { DSTest } from "../../../../../lib/ds-test/contracts/test.sol";
-
-import { ERC2258 } from "../../../custodial-ownership-token/contracts/ERC2258.sol";
+import { ERC2258 } from "../../modules/custodial-ownership-token/contracts/ERC2258.sol";
+import { DSTest }  from "../../modules/ds-test/src/test.sol";
 
 import { MplRewards } from "../MplRewards.sol";
 
