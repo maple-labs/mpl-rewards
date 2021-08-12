@@ -1,12 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 pragma solidity 0.6.11;
 
-import { Ownable }           from "../../../../lib/openzeppelin-contracts/contracts/access/Ownable.sol";
-import { Math }              from "../../../../lib/openzeppelin-contracts/contracts/math/Math.sol";
-import { SafeMath }          from "../../../../lib/openzeppelin-contracts/contracts/math/SafeMath.sol";
-import { IERC20, SafeERC20 } from "../../../../lib/openzeppelin-contracts/contracts/token/ERC20/SafeERC20.sol";
-
-import { IERC2258 } from "../../custodial-ownership-token/contracts/interfaces/IERC2258.sol";
+import { IERC2258 }          from "../modules/custodial-ownership-token/contracts/interfaces/IERC2258.sol";
+import { Ownable }           from "../modules/openzeppelin-contracts/contracts/access/Ownable.sol";
+import { Math }              from "../modules/openzeppelin-contracts/contracts/math/Math.sol";
+import { SafeMath }          from "../modules/openzeppelin-contracts/contracts/math/SafeMath.sol";
+import { IERC20, SafeERC20 } from "../modules/openzeppelin-contracts/contracts/token/ERC20/SafeERC20.sol";
 
 import { IMplRewards } from "./interfaces/IMplRewards.sol";
 
@@ -17,8 +16,8 @@ contract MplRewards is IMplRewards, Ownable {
     using SafeMath  for uint256;
     using SafeERC20 for IERC20;
 
-    IERC20    public override immutable rewardsToken;
-    IERC2258  public override immutable stakingToken;
+    address public override immutable rewardsToken;
+    address public override immutable stakingToken;
 
     uint256 public override periodFinish;
     uint256 public override rewardRate;
@@ -36,8 +35,8 @@ contract MplRewards is IMplRewards, Ownable {
     mapping(address => uint256) private _balances;
 
     constructor(address _rewardsToken, address _stakingToken, address _owner) public {
-        rewardsToken    = IERC20(_rewardsToken);
-        stakingToken    = IERC2258(_stakingToken);
+        rewardsToken    = _rewardsToken;
+        stakingToken    = _stakingToken;
         rewardsDuration = 7 days;
         transferOwnership(_owner);
     }
@@ -90,7 +89,7 @@ contract MplRewards is IMplRewards, Ownable {
         _updateReward(msg.sender);
         uint256 newBalance = _balances[msg.sender].add(amount);
         require(amount > 0, "R:ZERO_STAKE");
-        require(stakingToken.custodyAllowance(msg.sender, address(this)) >= newBalance, "R:INSUF_CUST_ALLOWANCE");
+        require(IERC2258(stakingToken).custodyAllowance(msg.sender, address(this)) >= newBalance, "R:INSUF_CUST_ALLOWANCE");
         _totalSupply          = _totalSupply.add(amount);
         _balances[msg.sender] = newBalance;
         emit Staked(msg.sender, amount);
@@ -102,7 +101,7 @@ contract MplRewards is IMplRewards, Ownable {
         require(amount > 0, "R:ZERO_WITHDRAW");
         _totalSupply = _totalSupply.sub(amount);
         _balances[msg.sender] = _balances[msg.sender].sub(amount);
-        stakingToken.transferByCustodian(msg.sender, msg.sender, amount);
+        IERC2258(stakingToken).transferByCustodian(msg.sender, msg.sender, amount);
         emit Withdrawn(msg.sender, amount);
     }
 
@@ -114,7 +113,7 @@ contract MplRewards is IMplRewards, Ownable {
         if (reward == uint256(0)) return;
 
         rewards[msg.sender] = uint256(0);
-        rewardsToken.safeTransfer(msg.sender, reward);
+        IERC20(rewardsToken).safeTransfer(msg.sender, reward);
         emit RewardPaid(msg.sender, reward);
     }
 
@@ -138,7 +137,7 @@ contract MplRewards is IMplRewards, Ownable {
         // This keeps the reward rate in the right range, preventing overflows due to
         // very high values of rewardRate in the earned and rewardsPerToken functions;
         // Reward + leftover must be less than 2^256 / 10^18 to avoid overflow.
-        uint256 balance = rewardsToken.balanceOf(address(this));
+        uint256 balance = IERC20(rewardsToken).balanceOf(address(this));
         require(_rewardRate <= balance.div(rewardsDuration), "R:REWARD_TOO_HIGH");
 
         lastUpdateTime = block.timestamp;

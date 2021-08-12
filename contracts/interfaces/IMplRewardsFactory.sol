@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 pragma solidity 0.6.11;
 
-import { IMapleGlobals } from "../../../globals/contracts/interfaces/IMapleGlobals.sol";
-
 /// @title MplRewardsFactory instantiates MplRewards contracts.
 interface IMplRewardsFactory {
 
@@ -18,7 +16,7 @@ interface IMplRewardsFactory {
     /**
         @dev The instance of MapleGlobals, used to retrieve the current Governor.
      */
-    function globals() external view returns (IMapleGlobals);
+    function globals() external view returns (address);
 
     /**
         @param mpeRewards A MplRewards contract.

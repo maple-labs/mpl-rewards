@@ -1,0 +1,11 @@
+name: mpl-rewards
+version: 1.0.0
+source: contracts
+packages:
+  - path: contracts/MplRewardsFactory.sol
+    contractName: MplRewardsFactory
+    customChecksum: 0xa29a9c9e312d83d6b8009f7dfb13b62792c1c3128deb3fdb92cedb9141978c50
+  - path: contracts/MplRewards.sol
+    contractName: MplRewards
+    customChecksum: 0x2f04c0513e9a19c22b545432e9c9cc6090ef7e59a399e4e8971c5d18f0043c18
+customDescription: MPL Rewards Artifacts and ABIs
