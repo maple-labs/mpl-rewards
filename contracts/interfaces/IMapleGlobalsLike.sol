@@ -2,5 +2,7 @@
 pragma solidity 0.6.11;
 
 interface IMapleGlobalsLike {
+
     function governor() external view returns (address);
+
 }
