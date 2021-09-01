@@ -5,7 +5,7 @@ import { DSTest } from "../../modules/ds-test/src/test.sol";
 
 import { MplRewards, MplRewardsFactory } from "../MplRewardsFactory.sol";
 
-import { MplRewardsFactoryGovernor } from "./accounts/MplRewardsFactoryGovernor.sol";
+import { Governor } from "./accounts/Governor.sol";
 
 contract MapleGlobalsMock {
 
@@ -21,28 +21,29 @@ contract MplRewardsFactoryTest is DSTest {
 
     function test_constructor() external {
         MplRewardsFactory rewardsFactoryContract = new MplRewardsFactory(address(1));
+
         assertEq(address(rewardsFactoryContract.globals()), address(1));
     }
 
     function test_setGlobals() external {
-        MplRewardsFactoryGovernor governor       = new MplRewardsFactoryGovernor();
-        MplRewardsFactoryGovernor notGovernor    = new MplRewardsFactoryGovernor();
-        MapleGlobalsMock mapleGlobalsContract    = new MapleGlobalsMock(address(governor));
+        Governor          governor               = new Governor();
+        Governor          notGovernor            = new Governor();
+        MapleGlobalsMock  mapleGlobalsContract   = new MapleGlobalsMock(address(governor));
         MplRewardsFactory rewardsFactoryContract = new MplRewardsFactory(address(mapleGlobalsContract));
 
-        assertTrue(!notGovernor.try_mplRewards_setGlobals(address(rewardsFactoryContract), address(1)));
-        assertTrue(    governor.try_mplRewards_setGlobals(address(rewardsFactoryContract), address(1)));
+        assertTrue(!notGovernor.try_mplRewardsFactory_setGlobals(address(rewardsFactoryContract), address(1)));
+        assertTrue(    governor.try_mplRewardsFactory_setGlobals(address(rewardsFactoryContract), address(1)));
     }
 
     function test_createMplRewards() external {
-        MplRewardsFactoryGovernor governor       = new MplRewardsFactoryGovernor();
-        MplRewardsFactoryGovernor notGovernor    = new MplRewardsFactoryGovernor();
-        MapleGlobalsMock mapleGlobalsContract    = new MapleGlobalsMock(address(governor));
+        Governor          governor               = new Governor();
+        Governor          notGovernor            = new Governor();
+        MapleGlobalsMock  mapleGlobalsContract   = new MapleGlobalsMock(address(governor));
         MplRewardsFactory rewardsFactoryContract = new MplRewardsFactory(address(mapleGlobalsContract));
         
-        assertTrue(!notGovernor.try_mplRewards_createMplRewards(address(rewardsFactoryContract), address(1), address(2)));
+        assertTrue(!notGovernor.try_mplRewardsFactory_createMplRewards(address(rewardsFactoryContract), address(1), address(2)));
 
-        address rewardsContract = governor.mplRewards_createMplRewards(address(rewardsFactoryContract), address(1), address(2));
+        address rewardsContract = governor.mplRewardsFactory_createMplRewards(address(rewardsFactoryContract), address(1), address(2));
 
         assertTrue(rewardsFactoryContract.isMplRewards(rewardsContract));
 
