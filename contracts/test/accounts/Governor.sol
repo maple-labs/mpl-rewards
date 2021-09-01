@@ -9,24 +9,24 @@ contract Governor {
     /*** Direct Functions ***/
     /************************/
 
-    function mplRewards_setGlobals(address mplRewardsFactory, address newGlobals) external {
-        IMplRewardsFactory(mplRewardsFactory).setGlobals(newGlobals);
+    function mplRewardsFactory_setGlobals(address factory, address newGlobals) external {
+        IMplRewardsFactory(factory).setGlobals(newGlobals);
     }
 
-    function mplRewards_createMplRewards(address mplRewardsFactory, address rewardsToken, address stakingToken) external returns (address mplRewards) {
-        return IMplRewardsFactory(mplRewardsFactory).createMplRewards(rewardsToken, stakingToken);
+    function mplRewardsFactory_createMplRewards(address factory, address rewardsToken, address stakingToken) external returns (address mplRewards) {
+        return IMplRewardsFactory(factory).createMplRewards(rewardsToken, stakingToken);
     }
 
     /*********************/
     /*** Try Functions ***/
     /*********************/
 
-    function try_mplRewards_setGlobals(address mplRewardsFactory, address newGlobals) external returns (bool ok) {
-        (ok,) = mplRewardsFactory.call(abi.encodeWithSelector(IMplRewardsFactory.setGlobals.selector, newGlobals));
+    function try_mplRewardsFactory_setGlobals(address factory, address newGlobals) external returns (bool ok) {
+        (ok,) = factory.call(abi.encodeWithSelector(IMplRewardsFactory.setGlobals.selector, newGlobals));
     }
 
-    function try_mplRewards_createMplRewards(address mplRewardsFactory, address rewardsToken, address stakingToken) external returns (bool ok) {
-        (ok,) = mplRewardsFactory.call(abi.encodeWithSelector(IMplRewardsFactory.createMplRewards.selector, rewardsToken, stakingToken));
+    function try_mplRewardsFactory_createMplRewards(address factory, address rewardsToken, address stakingToken) external returns (bool ok) {
+        (ok,) = factory.call(abi.encodeWithSelector(IMplRewardsFactory.createMplRewards.selector, rewardsToken, stakingToken));
     }
 
 }
